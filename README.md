@@ -1,4 +1,4 @@
-## Library for reading MFM72 MFM120 MFM220 MFM230 MFM630 DDM18SD Modbus Energy meters. ##
+## Library for reading MFM384 Modbus Energy meters. ##
 
 ### SECTIONS: ###
 #### 1. [INTRODUCTION](#introduction) ####
