@@ -15,36 +15,36 @@ TX SSer/HSer swap D8|15                            |GND
 */
 
 //REMEMBER! uncomment #define USE_HARDWARESERIAL
-//in SDM_Config_User.h file if you want to use hardware uart
+//in MFM_Config_User.h file if you want to use hardware uart
 
-#include <SDM.h>                                                                //import SDM library
+#include <MFM.h>                                                                //import MFM library
 
 #if defined ( USE_HARDWARESERIAL )                                              //for HWSERIAL
 
 #if defined ( ESP8266 )                                                         //for ESP8266
-SDM sdm(Serial1, SDM_UART_BAUD, NOT_A_PIN, SERIAL_8N1);                                  //config SDM
+MFM MFM(Serial1, MFM_UART_BAUD, NOT_A_PIN, SERIAL_8N1);                                  //config MFM
 #elif defined ( ESP32 )                                                         //for ESP32
-SDM sdm(Serial1, SDM_UART_BAUD, NOT_A_PIN, SERIAL_8N1, SDM_RX_PIN, SDM_TX_PIN);          //config SDM
+MFM MFM(Serial1, MFM_UART_BAUD, NOT_A_PIN, SERIAL_8N1, MFM_RX_PIN, MFM_TX_PIN);          //config MFM
 #else                                                                           //for AVR
-SDM sdm(Serial1, SDM_UART_BAUD, NOT_A_PIN);                                              //config SDM on Serial1 (if available!)
+MFM MFM(Serial1, MFM_UART_BAUD, NOT_A_PIN);                                              //config MFM on Serial1 (if available!)
 #endif
 
 #else                                                                           //for SWSERIAL
 
 #include <SoftwareSerial.h>                                                     //import SoftwareSerial library
 #if defined ( ESP8266 ) || defined ( ESP32 )                                    //for ESP
-SoftwareSerial swSerSDM;                                                        //config SoftwareSerial
-SDM sdm(swSerSDM, SDM_UART_BAUD, NOT_A_PIN, SWSERIAL_8N1, SDM_RX_PIN, SDM_TX_PIN);       //config SDM
+SoftwareSerial swSerMFM;                                                        //config SoftwareSerial
+MFM MFM(swSerMFM, MFM_UART_BAUD, NOT_A_PIN, SWSERIAL_8N1, MFM_RX_PIN, MFM_TX_PIN);       //config MFM
 #else                                                                           //for AVR
-SoftwareSerial swSerSDM(SDM_RX_PIN, SDM_TX_PIN);                                //config SoftwareSerial
-SDM sdm(swSerSDM, SDM_UART_BAUD, NOT_A_PIN);                                             //config SDM
+SoftwareSerial swSerMFM(MFM_RX_PIN, MFM_TX_PIN);                                //config SoftwareSerial
+MFM MFM(swSerMFM, MFM_UART_BAUD, NOT_A_PIN);                                             //config MFM
 #endif
 
 #endif
 
 void setup() {
   Serial.begin(115200);                                                         //initialize serial
-  sdm.begin();                                                                  //initialize SDM communication
+  MFM.begin();                                                                  //initialize MFM communication
 }
 
 void loop() {
@@ -53,19 +53,19 @@ void loop() {
   Serial.print(bufout);
 
   Serial.print("Voltage:   ");
-  Serial.print(sdm.readVal(SDM_PHASE_1_VOLTAGE), 2);                            //display voltage
+  Serial.print(MFM.readVal(MFM_PHASE_1_VOLTAGE), 2);                            //display voltage
   Serial.println("V");
 
   Serial.print("Current:   ");
-  Serial.print(sdm.readVal(SDM_PHASE_1_CURRENT), 2);                            //display current
+  Serial.print(MFM.readVal(MFM_PHASE_1_CURRENT), 2);                            //display current
   Serial.println("A");
 
   Serial.print("Power:     ");
-  Serial.print(sdm.readVal(SDM_PHASE_1_POWER), 2);                              //display power
+  Serial.print(MFM.readVal(MFM_PHASE_1_POWER), 2);                              //display power
   Serial.println("W");
 
   Serial.print("Frequency: ");
-  Serial.print(sdm.readVal(SDM_FREQUENCY), 2);                                  //display frequency
+  Serial.print(MFM.readVal(MFM_FREQUENCY), 2);                                  //display frequency
   Serial.println("Hz");
 
   delay(1000);                                                                  //wait a while before next loop
