@@ -1,7 +1,7 @@
-//sdm live page example by reaper7
+//MFM live page example by reaper7
 
-#define READSDMEVERY  2000                                                      //read sdm every 2000ms
-#define NBREG   5                                                               //number of sdm registers to read
+#define READMFMEVERY  2000                                                      //read MFM every 2000ms
+#define NBREG   5                                                               //number of MFM registers to read
 //#define USE_STATIC_IP
 
 /*  WEMOS D1 Mini
@@ -28,17 +28,17 @@ TX SSer/HSer swap D8|15                            |GND
 #include <ESPAsyncTCP.h>                                                        //https://github.com/me-no-dev/ESPAsyncTCP
 #include <ESPAsyncWebServer.h>                                                  //https://github.com/me-no-dev/ESPAsyncWebServer
 
-#include <SDM.h>                                                                //https://github.com/reaper7/SDM_Energy_Meter
+#include <MFM.h>                                                                //https://github.com/reaper7/MFM_Energy_Meter
 
 #include "index_page.h"
 
 #if !defined ( USE_HARDWARESERIAL )
-  #error "This example works with Hardware Serial on esp8266, please uncomment #define USE_HARDWARESERIAL in SDM_Config_User.h"
+  #error "This example works with Hardware Serial on esp8266, please uncomment #define USE_HARDWARESERIAL in MFM_Config_User.h"
 #endif
 //------------------------------------------------------------------------------
 AsyncWebServer server(80);
 
-SDM sdm(Serial, SDM_UART_BAUD, NOT_A_PIN, SERIAL_8N1, false);                            //HARDWARE SERIAL
+MFM MFM(Serial, MFM_UART_BAUD, NOT_A_PIN, SERIAL_8N1, false);                            //HARDWARE SERIAL
 
 //------------------------------------------------------------------------------
 String devicename = "PWRMETER";
@@ -62,11 +62,11 @@ typedef volatile struct {
 } sdm_struct;
 
 volatile sdm_struct sdmarr[NBREG] = {
-  {0.00, SDM_PHASE_1_VOLTAGE},                                                  //V
-  {0.00, SDM_PHASE_1_CURRENT},                                                  //A
-  {0.00, SDM_PHASE_1_POWER},                                                    //W
-  {0.00, SDM_PHASE_1_POWER_FACTOR},                                             //PF
-  {0.00, SDM_FREQUENCY}                                                         //Hz
+  {0.00, MFM_PHASE_1_VOLTAGE},                                                  //V
+  {0.00, MFM_PHASE_1_CURRENT},                                                  //A
+  {0.00, MFM_PHASE_1_POWER},                                                    //W
+  {0.00, MFM_PHASE_1_POWER_FACTOR},                                             //PF
+  {0.00, MFM_FREQUENCY}                                                         //Hz
 };
 //------------------------------------------------------------------------------
 void xmlrequest(AsyncWebServerRequest *request) {
@@ -147,7 +147,7 @@ void sdmRead() {
   float tmpval = NAN;
 
   for (uint8_t i = 0; i < NBREG; i++) {
-    tmpval = sdm.readVal(sdmarr[i].regarr);
+    tmpval = MFM.readVal(sdmarr[i].regarr);
 
     if (isnan(tmpval))
       sdmarr[i].regvalarr = 0.00;
@@ -167,7 +167,7 @@ void setup() {
   wifiInit();
   otaInit();
   serverInit();
-  sdm.begin();
+  MFM.begin();
 
   readtime = millis();
 
@@ -177,7 +177,7 @@ void setup() {
 void loop() {
   ArduinoOTA.handle();
 
-  if (millis() - readtime >= READSDMEVERY) {
+  if (millis() - readtime >= READMFMEVERY) {
     sdmRead();
     readtime = millis();
   }

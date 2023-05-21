@@ -3,7 +3,7 @@ const char index_page[] PROGMEM = R"=====(
 <HTML>
   <HEAD>
     <META name='viewport' content='width=device-width, initial-scale=1'>
-    <TITLE>SDM live POWER table</TITLE>
+    <TITLE>MFM live POWER table</TITLE>
     <SCRIPT>
     var xmlHttp=createXmlHttpObject();
     function createXmlHttpObject(){
@@ -60,16 +60,16 @@ const char index_page[] PROGMEM = R"=====(
   </HEAD>
   <BODY onload='process()'>
     <CENTER>
-      <H1>SDM live POWER table</H1>
+      <H1>MFM live POWER table</H1>
       <TABLE BORDER=1>
         <TR><TH title="VOLTAGE">VOLTAGE</TH><TD><A id='resp0'></A></TD><TD>V</TD></TR>
         <TR><TH title="CURRENT">CURRENT</TH><TD><A id='resp1'></A></TD><TD>A</TD></TR>
         <TR><TH title="POWER">POWER</TH><TD><A id='resp2'></A></TD><TD>W</TD></TR>
         <TR><TH title="POWER FACTOR">POWER FACTOR</TH><TD><A id='resp3'></A></TD><TD>PF</TD></TR>
         <TR><TH title="FREQUENCY">FREQUENCY</TH><TD><A id='resp4'></A></TD><TD>Hz</TD></TR>
-        <TR><TH title="SDM READ OK   COUNT">SDM READ OK   COUNT</TH><TD><A id='sdmreadcnt'></A></TD><TD>total</TD></TR>
-        <TR><TH title="SDM READ ERR. COUNT">SDM READ ERR. COUNT</TH><TD><A id='readerrtotal'></A></TD><TD>total</TD></TR>
-        <TR><TH title="SDM READ ERR. CODE ">SDM READ ERR. CODE </TH><TD><A id='readerrcode'></A></TD><TD>code</TD></TR>
+        <TR><TH title="MFM READ OK   COUNT">MFM READ OK   COUNT</TH><TD><A id='sdmreadcnt'></A></TD><TD>total</TD></TR>
+        <TR><TH title="MFM READ ERR. COUNT">MFM READ ERR. COUNT</TH><TD><A id='readerrtotal'></A></TD><TD>total</TD></TR>
+        <TR><TH title="MFM READ ERR. CODE ">MFM READ ERR. CODE </TH><TD><A id='readerrcode'></A></TD><TD>code</TD></TR>
         <TR><TH title="UPTIME">UPTIME</TH><TD><A id='uptime'></A></TD><TD>d h:m:s</TD></TR>
         <TR><TH title="FREE HEAP">FREE HEAP</TH><TD><A id='freeheap'></A></TD><TD>bytes</TD></TR>
       </TABLE>

@@ -15,9 +15,9 @@ TX SSer/HSer swap D8|15                            |GND
 */
 
 //REMEMBER! uncomment #define USE_HARDWARESERIAL 
-//in SDM_Config_User.h file if you want to use hardware uart
+//in MFM_Config_User.h file if you want to use hardware uart
 
-#include <SDM.h>                                                                //import SDM library
+#include <MFM.h>                                                                //import MFM library
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266mDNS.h>
@@ -30,7 +30,7 @@ TX SSer/HSer swap D8|15                            |GND
 // WiFi Parameters
 const char* ssid = "SSID";
 const char* password = "PASS";
-#define HOSTNAME "SDM630"     // Friedly hostname
+#define HOSTNAME "MFM630"     // Friedly hostname
 
 
 
@@ -75,25 +75,25 @@ const int dere_pin = 2;
 #if defined ( USE_HARDWARESERIAL )                                              //for HWSERIAL
 
 #if defined ( ESP8266 )                                                         //for ESP8266
-SDM sdm(Serial, 38400, dere_pin, SERIAL_8N1);                                  //config SDM
+MFM MFM(Serial, 38400, dere_pin, SERIAL_8N1);                                  //config MFM
 #else                                                                           //for AVR
-SDM sdm(Serial, 38400, dere_pin);                                              //config SDM on Serial1 (if available!)
+MFM MFM(Serial, 38400, dere_pin);                                              //config MFM on Serial1 (if available!)
 #endif
 
 #else                                                                           //for SWSERIAL
 
 #include <SoftwareSerial.h>                                                     //import SoftwareSerial library
 #if defined ( ESP8266 )                                                        //for ESP
-SoftwareSerial swSerSDM;                                                        //config SoftwareSerial
-SDM sdm(swSerSDM, 9600, dere_pin, SWSERIAL_8N1, SDM_RX_PIN, SDM_TX_PIN);       //config SDM
+SoftwareSerial swSerMFM;                                                        //config SoftwareSerial
+MFM MFM(swSerMFM, 9600, dere_pin, SWSERIAL_8N1, MFM_RX_PIN, MFM_TX_PIN);       //config MFM
 #else                                                                           //for AVR
-SoftwareSerial swSerSDM(SDM_RX_PIN, SDM_TX_PIN);                                //config SoftwareSerial
-SDM sdm(swSerSDM, 9600, dere_pin);                                             //config SDM
+SoftwareSerial swSerMFM(MFM_RX_PIN, MFM_TX_PIN);                                //config SoftwareSerial
+MFM MFM(swSerMFM, 9600, dere_pin);                                             //config MFM
 #endif
 
 #endif //#if defined ( USE_HARDWARESERIAL )
 
-#define READSDMEVERY  1000                                                      //read sdm every 2000ms
+#define READMFMEVERY  1000                                                      //read MFM every 2000ms
 #define NBREG   23    // SET TO the number of parameters in sdm_struct sdmarr[NBREG] and maximum 40 
 
 
@@ -104,29 +104,29 @@ typedef struct {
 } sdm_struct;
 
 sdm_struct sdmarr[NBREG] = {
-  {0.00, SDM_PHASE_1_VOLTAGE,"VoltageL1"},                                      //V
-  {0.00, SDM_PHASE_2_VOLTAGE,"VoltageL2"},                                      //V
-  {0.00, SDM_PHASE_3_VOLTAGE,"VoltageL3"},                                      //V
-  {0.00, SDM_PHASE_1_CURRENT,"CurrentL1"},                                      //A
-  {0.00, SDM_PHASE_2_CURRENT,"CurrentL2"},                                      //A
-  {0.00, SDM_PHASE_3_CURRENT,"CurrentL3"},                                      //A
-  {0.00, SDM_SUM_LINE_CURRENT,"CurrentSUM"},                                    //A
-  {0.00, SDM_PHASE_1_POWER,"PowerL1"},                                          //W
-  {0.00, SDM_PHASE_2_POWER,"PowerL2"},                                          //W
-  {0.00, SDM_PHASE_3_POWER,"PowerL3"},                                          //W
-  {0.00, SDM_TOTAL_SYSTEM_POWER,"PowerSUM"},                                    //W
-  {0.00, SDM_TOTAL_SYSTEM_POWER_FACTOR,"PFTOTAL"},                              //PF
-  {0.00, SDM_FREQUENCY,"FREQUENCY"},                                            //Hz
-  {0.00, SDM_IMPORT_ACTIVE_ENERGY,"ImportEnergi"},                              //kWh
-  {0.00, SDM_TOTAL_ACTIVE_ENERGY,"TotalEnergi"},                                //kWh
-  {0.00, SDM_LINE_1_TO_LINE_2_VOLTS,"VoltageL1L2"},                             //V
-  {0.00, SDM_LINE_2_TO_LINE_3_VOLTS,"VoltageL2L3"},                             //V
-  {0.00, SDM_LINE_3_TO_LINE_1_VOLTS,"VoltageL3L1"},                             //V
-  {0.00, SDM_TOTAL_SYSTEM_REACTIVE_POWER,"ReactivePowerSUM"},                   //VAr
-  {0.00, SDM_TOTAL_SYSTEM_APPARENT_POWER,"ApparentPowerSUM"},                   //VA
-  {0.00, SDM_L1_IMPORT_ACTIVE_ENERGY,"ImportL1"},                               //kWh
-  {0.00, SDM_L2_IMPORT_ACTIVE_ENERGY,"ImportL2"},                               //kWh
-  {0.00, SDM_L3_IMPORT_ACTIVE_ENERGY,"ImportL3"}                                //kWh
+  {0.00, MFM_PHASE_1_VOLTAGE,"VoltageL1"},                                      //V
+  {0.00, MFM_PHASE_2_VOLTAGE,"VoltageL2"},                                      //V
+  {0.00, MFM_PHASE_3_VOLTAGE,"VoltageL3"},                                      //V
+  {0.00, MFM_PHASE_1_CURRENT,"CurrentL1"},                                      //A
+  {0.00, MFM_PHASE_2_CURRENT,"CurrentL2"},                                      //A
+  {0.00, MFM_PHASE_3_CURRENT,"CurrentL3"},                                      //A
+  {0.00, MFM_SUM_LINE_CURRENT,"CurrentSUM"},                                    //A
+  {0.00, MFM_PHASE_1_POWER,"PowerL1"},                                          //W
+  {0.00, MFM_PHASE_2_POWER,"PowerL2"},                                          //W
+  {0.00, MFM_PHASE_3_POWER,"PowerL3"},                                          //W
+  {0.00, MFM_TOTAL_SYSTEM_POWER,"PowerSUM"},                                    //W
+  {0.00, MFM_TOTAL_SYSTEM_POWER_FACTOR,"PFTOTAL"},                              //PF
+  {0.00, MFM_FREQUENCY,"FREQUENCY"},                                            //Hz
+  {0.00, MFM_IMPORT_ACTIVE_ENERGY,"ImportEnergi"},                              //kWh
+  {0.00, MFM_TOTAL_ACTIVE_ENERGY,"TotalEnergi"},                                //kWh
+  {0.00, MFM_LINE_1_TO_LINE_2_VOLTS,"VoltageL1L2"},                             //V
+  {0.00, MFM_LINE_2_TO_LINE_3_VOLTS,"VoltageL2L3"},                             //V
+  {0.00, MFM_LINE_3_TO_LINE_1_VOLTS,"VoltageL3L1"},                             //V
+  {0.00, MFM_TOTAL_SYSTEM_REACTIVE_POWER,"ReactivePowerSUM"},                   //VAr
+  {0.00, MFM_TOTAL_SYSTEM_APPARENT_POWER,"ApparentPowerSUM"},                   //VA
+  {0.00, MFM_L1_IMPORT_ACTIVE_ENERGY,"ImportL1"},                               //kWh
+  {0.00, MFM_L2_IMPORT_ACTIVE_ENERGY,"ImportL2"},                               //kWh
+  {0.00, MFM_L3_IMPORT_ACTIVE_ENERGY,"ImportL3"}                                //kWh
 };
 
 unsigned long readtime;
@@ -137,7 +137,7 @@ bool read_done = false;
 
 void setup() {
   //Serial.begin(115200);                                                         //initialize serial
-  sdm.begin();                                                                  //initialize SDM communication
+  MFM.begin();                                                                  //initialize MFM communication
 
   // Setup wifi
   WiFi.mode(WIFI_STA);
@@ -186,7 +186,7 @@ void loop() {
     iterations = 0;
   }
 
-  if (millis() - readtime >= READSDMEVERY) {
+  if (millis() - readtime >= READMFMEVERY) {
     sdmRead();
     readtime = millis();
   }
@@ -195,7 +195,7 @@ void loop() {
 //put data to influx in buffer
     time_t tnow = time(nullptr);
     for (int i = 0; i < NBREG; i++) {
-      Point powerMeter("SDM630");
+      Point powerMeter("MFM630");
       //powerMeter.addTag("device", "Main");
       powerMeter.addTag("Type", sdmarr[i].regtext );
       //powerMeter.addTag("channel", String(WiFi.channel(i)));
@@ -279,7 +279,7 @@ void sdmRead() {
   float tmpval = NAN;
 
   for (uint8_t i = 0; i < NBREG; i++) {
-    tmpval = sdm.readVal(sdmarr[i].regarr);
+    tmpval = MFM.readVal(sdmarr[i].regarr);
 
     if (isnan(tmpval))
       sdmarr[i].regvalarr = 0.00;
