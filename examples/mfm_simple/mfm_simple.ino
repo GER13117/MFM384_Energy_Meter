@@ -53,15 +53,15 @@ void loop() {
   Serial.print(bufout);
 
   Serial.print("Voltage:   ");
-  Serial.print(MFM.readVal(MFM_PHASE_1_VOLTAGE), 2);                            //display voltage
+  Serial.print(MFM.readVal(MFM_VOLTAGE_V1N), 2);                            //display voltage
   Serial.println("V");
 
   Serial.print("Current:   ");
-  Serial.print(MFM.readVal(MFM_PHASE_1_CURRENT), 2);                            //display current
+  Serial.print(MFM.readVal(MFM_CURRENT_I1), 2);                            //display current
   Serial.println("A");
 
   Serial.print("Power:     ");
-  Serial.print(MFM.readVal(MFM_PHASE_1_POWER), 2);                              //display power
+  Serial.print(MFM.readVal(MFM_KW1), 2);                              //display power
   Serial.println("W");
 
   Serial.print("Frequency: ");
